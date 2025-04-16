@@ -1,82 +1,138 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Search in Questions</title>
-    <style>
-        .container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
+  <title>Search in Questions</title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 20px;
+          background-color: #f5f5f5;
+      }
+      
+      .container {
+          background: #fff;
+          padding: 20px;
+          border-radius: 10px;
+          max-width: 1400px;
+          width: 100%;
+          margin: 0 auto;
+      }
 
-            max-width: 1400px;
-            width: 100%;
-        }
+      .search-container {
+          margin-bottom: 20px;
+          width: 100%;
+          max-width: 600px;
+          position: relative;
+      }
 
-        .search-container {
-            margin-bottom: 20px;
-            width: 100%;
-            max-width: 600px;
-        }
+      .search-bar {
+          width: 100%;
+          padding: 10px;
+          padding-right: 70px; /* Space for buttons */
+          font-size: 16px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          box-sizing: border-box;
+      }
 
-        .search-bar {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+      .search-buttons {
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+          display: flex;
+          gap: 5px;
+      }
 
-        .question-block {
-            margin-bottom: 20px;
-        }
+      .search-button {
+          background: #ddd;
+          border: none;
+          border-radius: 3px;
+          padding: 3px 8px;
+          cursor: pointer;
+          font-size: 12px;
+      }
 
-        .question {
-            color: #333;
-            margin: 0;
-            font-size: 18px;
-            font-size: 30px;
-            background-color: yellow;
-        }
+      .search-button:hover {
+          background: #ccc;
+      }
 
-        img {
-            width: 40%;
-            height: auto;
-            border-radius: 10px;
-            margin: 10px;
-        }
+      .question-block {
+          margin-bottom: 20px;
+          padding: 15px;
+          border: 1px solid #eee;
+          border-radius: 5px;
+      }
 
-        .hidden {
-            display: none;
-        }
+      .question {
+          color: #333;
+          margin: 0;
+          font-size: 30px;
+          background-color: yellow;
+          padding: 10px;
+      }
 
-        .question-form {
-            margin-top: 10px;
-        }
+      img {
+          width: 40%;
+          height: auto;
+          border-radius: 10px;
+          margin: 10px;
+      }
 
-        .question-form label {
-            display: block;
-            margin: 5px 0;
-            padding: 10px;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            transition: background-color 0.3s;
-        }
+      .hidden {
+          display: none;
+      }
 
-        .correct-answer {
-            font-weight: bold;
-            color: green;
-            background-color: #e0ffe0;
-            border: 1px solid green;
-        }
-    </style>
+      .question-form {
+          margin-top: 10px;
+      }
+
+      .question-form label {
+          display: block;
+          margin: 5px 0;
+          padding: 10px;
+          border-radius: 5px;
+          background-color: #f9f9f9;
+          transition: background-color 0.3s;
+      }
+
+      .correct-answer {
+          font-weight: bold;
+          color: green;
+          background-color: #e0ffe0;
+          border: 1px solid green;
+      }
+
+      .scroll-top {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          background: #333;
+          color: white;
+          border: none;
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          font-size: 20px;
+          cursor: pointer;
+          display: none;
+          z-index: 99;
+      }
+
+      .scroll-top:hover {
+          background: #555;
+      }
+  </style>
 </head>
-
 <body>
-    <div class="container">
-        <div class="search-container">
-            <input type="text" id="search" class="search-bar" placeholder="Search questions...">
-        </div>
+  <div class="container">
+      <div class="search-container">
+          <!-- <input type="text" id="search" class="search-bar" placeholder="Search questions..."> -->
+          <div class="search-buttons">
+              <button class="search-button" id="clear-search">X</button>
+          </div>
+      </div>
         <div id="content">
           <div class="question-block">
               <h1 class="question">A network administrator is troubleshooting a connectivity issue. The administrator performs a port scan, and the following information is generated:
@@ -20158,42 +20214,7 @@ Name Server: 172.25.1.4</pre>
     <label for="optionE">E. Click the link in the messages to pay for virus removal.</label>
     <label for="optionF" class="correct-answer">F. Perform a reset on the user's web browser. ✓</label>
   </form>
-</div>
-
-      
-        
-
-
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-            
-              
-              
-              
-              
-              
-              
-              
-              
+</div>     
               
               
               
@@ -20481,17 +20502,11 @@ Name Server: 172.25.1.4</pre>
                 </form>
             </div>
 
-
-
-
-
-
-
-
         </div>
+        <button class="scroll-top" id="scrollTop">↑</button>
     </div>
 
-    <script>
+    <!-- <script>
         document.addEventListener("DOMContentLoaded", function () {
             const seenQuestions = new Set();
             const questionBlocks = document.querySelectorAll(".question-block");
@@ -20521,7 +20536,72 @@ Name Server: 172.25.1.4</pre>
                 }
             });
         });
-    </script>
+    </script> -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          const seenQuestions = new Set();
+          const questionBlocks = document.querySelectorAll(".question-block");
+
+          questionBlocks.forEach(block => {
+              const questionText = block.querySelector(".question").innerText.trim();
+
+              if (seenQuestions.has(questionText)) {
+                  block.remove(); // Remove duplicate question
+              } else {
+                  seenQuestions.add(questionText);
+              }
+          });
+          
+          // Initialize scroll to top button
+          const scrollTopBtn = document.getElementById('scrollTop');
+          
+          window.addEventListener('scroll', function() {
+              if (window.pageYOffset > 300) {
+                  scrollTopBtn.style.display = 'block';
+              } else {
+                  scrollTopBtn.style.display = 'none';
+              }
+          });
+          
+          scrollTopBtn.addEventListener('click', function() {
+              window.scrollTo({
+                  top: 0,
+                  behavior: 'smooth'
+              });
+          });
+          
+          // Search functionality
+          const searchInput = document.getElementById('search');
+          const clearSearchBtn = document.getElementById('clear-search');
+          const contentDiv = document.getElementById('content');
+          
+          // Make sure all question blocks are inside the content div
+          questionBlocks.forEach(block => {
+              contentDiv.appendChild(block);
+          });
+          
+          searchInput.addEventListener('input', function () {
+              const query = searchInput.value.toLowerCase();
+              questionBlocks.forEach(block => {
+                  const question = block.querySelector('.question');
+                  if (question.textContent.toLowerCase().includes(query)) {
+                      block.classList.remove('hidden');
+                  } else {
+                      block.classList.add('hidden');
+                  }
+              });
+          });
+          
+          // Clear search functionality
+          clearSearchBtn.addEventListener('click', function() {
+              searchInput.value = '';
+              questionBlocks.forEach(block => {
+                  block.classList.remove('hidden');
+              });
+              searchInput.focus();
+          });
+      });
+  </script>
 </body>
 
 </html>
