@@ -14,7 +14,7 @@
           background: #fff;
           padding: 20px;
           border-radius: 10px;
-          max-width: 1400px;
+          /* max-width: 1400px; */
           width: 100%;
           margin: 0 auto;
       }
@@ -123,16 +123,50 @@
       .scroll-top:hover {
           background: #555;
       }
+      /* CSS */
+
   </style>
 </head>
 <body>
   <div class="container">
       <div class="search-container">
-          <!-- <input type="text" id="search" class="search-bar" placeholder="Search questions..."> -->
+          <input type="text" id="search" class="search-bar" placeholder="Search questions...">
           <div class="search-buttons">
               <button class="search-button" id="clear-search">X</button>
           </div>
       </div>
+   <div id="content">
+  <div class="question-block">
+    <h1 class="question">A customer recently experienced a power outage at a SOHO. The customer does not think the components are connected properly. A print job continued running for several minutes after the power failed, but the customer was not able to interact with the computer.</h1>
+    
+    <p>Once the UPS stopped beeping, all functioning devices also turned off.</p>
+    
+    <p>In case of a future power failure, the customer wants to have the most time available to save cloud documents and shut down the computer without losing any data.</p>
+    
+    <div class="instructions">
+      <h2>INSTRUCTIONS:</h2>
+      <p>Based on the customer's requirements, connect the customer's devices to the proper outlets. Select the power source for the Surge Protector and UPS. This may require reselecting dropdowns or removing tokens.</p>
+      <p>Each token may only be used once.</p>
+      <p>If at any time you would like to bring back the initial state of the simulation, please click the Reset All button.</p>
+    </div>
+
+    <img src="/assets/Fig14.PNG" alt="Diagram of power connections for SOHO devices">
+    
+  <form class="question-form">
+  <h3 style="color: green; margin-bottom: 10px;">CORRECT ANSWER</h3>
+  <label for="optionA" class="correct-answer">
+    <img src="/assets/Fig15.PNG" alt="Power connection options">
+  </label>
+  <!-- Consider adding submit button if needed -->
+</form>
+  </div>
+</div>
+
+
+
+
+
+
         <div id="content">
           <div class="question-block">
               <h1 class="question">A network administrator is troubleshooting a connectivity issue. The administrator performs a port scan, and the following information is generated:
@@ -20537,71 +20571,72 @@ Name Server: 172.25.1.4</pre>
             });
         });
     </script> -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-          const seenQuestions = new Set();
-          const questionBlocks = document.querySelectorAll(".question-block");
-
-          questionBlocks.forEach(block => {
-              const questionText = block.querySelector(".question").innerText.trim();
-
-              if (seenQuestions.has(questionText)) {
-                  block.remove(); // Remove duplicate question
-              } else {
-                  seenQuestions.add(questionText);
-              }
-          });
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      // Remove duplicate questions
+      const seenQuestions = new Map(); // Using Map to store both text and element
+      const questionBlocks = document.querySelectorAll(".question-block");
+      const contentDiv = document.getElementById('content');
+      
+      // First pass: identify duplicates
+      questionBlocks.forEach(block => {
+          const questionElement = block.querySelector(".question");
+          const questionText = questionElement.textContent.trim();
           
-          // Initialize scroll to top button
-          const scrollTopBtn = document.getElementById('scrollTop');
-          
-          window.addEventListener('scroll', function() {
-              if (window.pageYOffset > 300) {
-                  scrollTopBtn.style.display = 'block';
-              } else {
-                  scrollTopBtn.style.display = 'none';
-              }
-          });
-          
-          scrollTopBtn.addEventListener('click', function() {
-              window.scrollTo({
-                  top: 0,
-                  behavior: 'smooth'
-              });
-          });
-          
-          // Search functionality
-          const searchInput = document.getElementById('search');
-          const clearSearchBtn = document.getElementById('clear-search');
-          const contentDiv = document.getElementById('content');
-          
-          // Make sure all question blocks are inside the content div
-          questionBlocks.forEach(block => {
-              contentDiv.appendChild(block);
-          });
-          
-          searchInput.addEventListener('input', function () {
-              const query = searchInput.value.toLowerCase();
-              questionBlocks.forEach(block => {
-                  const question = block.querySelector('.question');
-                  if (question.textContent.toLowerCase().includes(query)) {
-                      block.classList.remove('hidden');
-                  } else {
-                      block.classList.add('hidden');
-                  }
-              });
-          });
-          
-          // Clear search functionality
-          clearSearchBtn.addEventListener('click', function() {
-              searchInput.value = '';
-              questionBlocks.forEach(block => {
-                  block.classList.remove('hidden');
-              });
-              searchInput.focus();
+          if (seenQuestions.has(questionText)) {
+              // If we've seen this question before, remove the entire block
+              block.remove();
+          } else {
+              // Store the first occurrence of this question
+              seenQuestions.set(questionText, block);
+          }
+      });
+      
+      // Initialize scroll to top button
+      const scrollTopBtn = document.getElementById('scrollTop');
+      
+      window.addEventListener('scroll', function() {
+          if (window.pageYOffset > 300) {
+              scrollTopBtn.style.display = 'block';
+          } else {
+              scrollTopBtn.style.display = 'none';
+          }
+      });
+      
+      scrollTopBtn.addEventListener('click', function() {
+          window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
           });
       });
-  </script>
+      
+      // Search functionality
+      const searchInput = document.getElementById('search');
+      const clearSearchBtn = document.getElementById('clear-search');
+      const remainingQuestionBlocks = document.querySelectorAll(".question-block"); // Get updated list after deduplication
+      
+      searchInput.addEventListener('input', function () {
+          const query = searchInput.value.toLowerCase();
+          remainingQuestionBlocks.forEach(block => {
+              const question = block.querySelector('.question');
+              if (question.textContent.toLowerCase().includes(query)) {
+                  block.classList.remove('hidden');
+              } else {
+                  block.classList.add('hidden');
+              }
+          });
+      });
+      
+      // Clear search functionality
+      clearSearchBtn.addEventListener('click', function() {
+          searchInput.value = '';
+          remainingQuestionBlocks.forEach(block => {
+              block.classList.remove('hidden');
+          });
+          searchInput.focus();
+      });
+  });
+</script>
 </body>
 
 </html>
